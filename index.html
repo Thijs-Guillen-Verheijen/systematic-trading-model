@@ -3,220 +3,162 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Systematic Trading Model — Execution Telemetry</title>
+    <title>Model Performance Dashboard</title>
     <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
     <style>
         :root {
-            --bg-color: #0b0e14;
-            --card-bg: #151922;
-            --border-color: #232936;
-            --text-main: #f1f5f9;
-            --text-muted: #94a3b8;
-            --accent-purple: #a855f7;
-            --accent-green: #10b981;
-            --accent-red: #ef4444;
-            --accent-amber: #f59e0b;
+            --bg: #0f1117;
+            --card: #181b24;
+            --border: #262a36;
+            --text: #e2e8f0;
+            --muted: #8492a6;
+            --purple: #8b5cf6;
+            --green: #10b981;
+            --red: #ef4444;
+            --amber: #f59e0b;
         }
         body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             margin: 0;
-            padding: 30px 20px;
+            padding: 32px 20px;
         }
         .container {
-            max-width: 1100px;
+            max-width: 1040px;
             margin: 0 auto;
         }
         .header {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 25px;
-            flex-wrap: wrap;
-            gap: 15px;
+            align-items: center;
+            margin-bottom: 24px;
         }
-        .title-box h1 {
-            font-size: 1.5rem;
-            margin: 0 0 6px 0;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-        }
-        .title-box p {
-            font-size: 0.85rem;
-            color: var(--text-muted);
+        h1 {
+            font-size: 1.35rem;
             margin: 0;
+            font-weight: 600;
+            letter-spacing: -0.3px;
         }
-        .status-badge {
+        .badge {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 7px;
             background: rgba(16, 185, 129, 0.1);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            padding: 6px 14px;
-            border-radius: 9999px;
-            font-size: 0.8rem;
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            padding: 5px 12px;
+            border-radius: 999px;
+            font-size: 0.75rem;
             font-weight: 600;
-            color: var(--accent-green);
+            color: var(--green);
         }
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            background-color: var(--accent-green);
+        .dot {
+            width: 7px;
+            height: 7px;
+            background: var(--green);
             border-radius: 50%;
-            box-shadow: 0 0 8px var(--accent-green);
         }
-        .live-banner {
+        .banner {
             background: rgba(245, 158, 11, 0.05);
-            border: 1px solid rgba(245, 158, 11, 0.25);
-            border-radius: 8px;
-            padding: 14px 20px;
+            border: 1px solid rgba(245, 158, 11, 0.2);
+            border-radius: 6px;
+            padding: 12px 16px;
             margin-bottom: 20px;
+            font-size: 0.82rem;
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 12px;
         }
-        .live-banner.flat {
-            background: rgba(148, 163, 184, 0.04);
-            border: 1px solid rgba(148, 163, 184, 0.15);
+        .banner.flat {
+            background: var(--card);
+            border-color: var(--border);
+            color: var(--muted);
         }
-        .live-left {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .pulse-amber {
-            width: 10px;
-            height: 10px;
-            background-color: var(--accent-amber);
-            border-radius: 50%;
-            box-shadow: 0 0 10px var(--accent-amber);
-            animation: pulse 1.8s infinite;
-        }
-        .pulse-gray {
-            width: 10px;
-            height: 10px;
-            background-color: var(--text-muted);
-            border-radius: 50%;
-        }
-        @keyframes pulse {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7); }
-            70% { transform: scale(1.1); box-shadow: 0 0 0 8px rgba(245, 158, 11, 0); }
-            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
-        }
-        .live-title {
-            font-size: 0.85rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .pill {
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 0.72rem;
-            font-weight: 600;
-        }
-        .pill-short { background: rgba(239, 68, 68, 0.15); color: var(--accent-red); }
-        .pill-long { background: rgba(16, 185, 129, 0.15); color: var(--accent-green); }
-        .grid-stats {
+        .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 12px;
             margin-bottom: 20px;
         }
-        .stat-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 16px;
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 14px 16px;
         }
-        .stat-label {
+        .card-label {
             font-size: 0.72rem;
-            color: var(--text-muted);
+            color: var(--muted);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 6px;
+            letter-spacing: 0.4px;
+            margin-bottom: 4px;
         }
-        .stat-value {
-            font-size: 1.35rem;
-            font-weight: 700;
+        .card-val {
+            font-size: 1.3rem;
+            font-weight: 600;
         }
-        .chart-box {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 25px;
+        .chart-wrap {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 14px;
         }
         .footer {
             text-align: center;
             font-size: 0.75rem;
-            color: var(--text-muted);
-            margin-top: 30px;
+            color: var(--muted);
+            margin-top: 24px;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <div class="title-box">
-                <h1>Systematic Trading Model — Execution Telemetry</h1>
-                <p>Out-of-sample portfolio equity and risk metrics. Trade log, signals and execution logic remain proprietary.</p>
-            </div>
-            <div class="status-badge">
-                <div class="status-dot"></div>
-                DAEMON ONLINE & SYNCED
-            </div>
+            <h1>Quantitative Strategy Performance</h1>
+            <div class="badge"><div class="dot"></div> LIVE</div>
         </div>
 
-        <div class="live-banner">
-            <div class="live-left">
-                <div class="pulse-amber"></div>
-                <div>
-                    <span class="live-title" style="color: var(--accent-amber);">ACTIVE POSITION IN PROGRESS:</span>
-                    <span style="font-weight: 700; margin-left: 8px;">SOLUSDT</span> <span class="pill pill-short">SHORT BIAS</span>
-                </div>
+        <div class="banner">
+            <div>
+                <strong style="color: var(--amber);">Open Position:</strong> 
+                SOLUSDT 
+                <span style="color: var(--red); font-weight: 600; margin-left: 4px;">SHORT</span>
             </div>
-            <div style="font-size: 0.85rem; color: var(--text-muted);">
-                State: Managed by automated execution engine • Settlement pending
-            </div>
+            <div style="color: var(--muted);">Settlement pending</div>
         </div>
     
-        <div class="grid-stats">
-            <div class="stat-card">
-                <div class="stat-label">Realized Equity</div>
-                <div class="stat-value">$1,162.69</div>
+        <div class="grid">
+            <div class="card">
+                <div class="card-label">Current Equity</div>
+                <div class="card-val">$1,162.69</div>
             </div>
-            <div class="stat-card">
-                <div class="stat-label">Profit Factor</div>
-                <div class="stat-value">1.78</div>
+            <div class="card">
+                <div class="card-label">Profit Factor</div>
+                <div class="card-val">1.78</div>
             </div>
-            <div class="stat-card">
-                <div class="stat-label">Win Rate</div>
-                <div class="stat-value">37.5%</div>
+            <div class="card">
+                <div class="card-label">Win Rate</div>
+                <div class="card-val">37.5%</div>
             </div>
-            <div class="stat-card">
-                <div class="stat-label">Max Drawdown</div>
-                <div class="stat-value" style="color: var(--accent-red);">-1.96%</div>
+            <div class="card">
+                <div class="card-label">Max Drawdown</div>
+                <div class="card-val" style="color: var(--red);">-1.96%</div>
             </div>
-            <div class="stat-card">
-                <div class="stat-label">Win/Loss Payoff</div>
-                <div class="stat-value">2.96x</div>
+            <div class="card">
+                <div class="card-label">Payoff Ratio</div>
+                <div class="card-val">2.96x</div>
             </div>
-            <div class="stat-card">
-                <div class="stat-label">Executed Samples</div>
-                <div class="stat-value">8</div>
+            <div class="card">
+                <div class="card-label">Trades</div>
+                <div class="card-val">8</div>
             </div>
         </div>
 
-        <div class="chart-box">
-            <div id="telemetryChart" style="height: 480px;"></div>
+        <div class="chart-wrap">
+            <div id="chart" style="height: 480px;"></div>
         </div>
 
         <div class="footer">
-            Telemetry synchronized from headless daemon at 2026-10-11 18:35:14 UTC • Bitunix Institutional API
+            Last update: 2026-10-11 18:37 UTC
         </div>
     </div>
 
@@ -228,13 +170,11 @@
         const traceEquity = {
             x: times,
             y: equities,
-            name: 'Portfolio Equity (USDT)',
+            name: 'Equity ($)',
             type: 'scatter',
             mode: 'lines+markers',
-            line: { color: '#a855f7', width: 2.5 },
-            marker: { color: '#c084fc', size: 5 },
-            fill: 'none',
-            fillcolor: 'rgba(168, 85, 247, 0.08)',
+            line: { color: '#8b5cf6', width: 2 },
+            marker: { color: '#a78bfa', size: 5 },
             xaxis: 'x',
             yaxis: 'y'
         };
@@ -246,8 +186,8 @@
             type: 'scatter',
             mode: 'lines',
             line: { color: '#ef4444', width: 1.5 },
-            fill: 'none',
-            fillcolor: 'rgba(239, 68, 68, 0.12)',
+            fill: 'tozeroy',
+            fillcolor: 'rgba(239, 68, 68, 0.1)',
             xaxis: 'x',
             yaxis: 'y2'
         };
@@ -259,35 +199,35 @@
             showlegend: false,
             grid: { rows: 2, columns: 1, pattern: 'independent', roworder: 'top to bottom' },
             yaxis: {
-                title: 'Account Equity ($)',
-                gridcolor: '#1e2430',
-                zerolinecolor: '#1e2430',
-                domain: [0.38, 1.0],
-                tickfont: { color: '#94a3b8' },
+                title: 'Equity ($)',
+                range: [1122.3681, 1203.6682],
+                gridcolor: '#1f2430',
+                zeroline: false,
+                domain: [0.36, 1.0],
+                tickfont: { color: '#8492a6' },
                 titlefont: { color: '#cbd5e1' }
             },
             yaxis2: {
                 title: 'Drawdown (%)',
-                gridcolor: '#1e2430',
-                zerolinecolor: '#1e2430',
-                domain: [0.0, 0.28],
-                tickfont: { color: '#94a3b8' },
+                gridcolor: '#1f2430',
+                zerolinecolor: '#262a36',
+                domain: [0.0, 0.26],
+                tickfont: { color: '#8492a6' },
                 titlefont: { color: '#cbd5e1' }
             },
             xaxis: {
-                gridcolor: '#1e2430',
-                tickfont: { color: '#94a3b8' },
+                gridcolor: '#1f2430',
+                tickfont: { color: '#8492a6' },
                 showticklabels: false
             },
             xaxis2: {
-                title: 'Audit Timeline (UTC)',
-                gridcolor: '#1e2430',
-                tickfont: { color: '#94a3b8' },
+                gridcolor: '#1f2430',
+                tickfont: { color: '#8492a6' },
                 titlefont: { color: '#cbd5e1' }
             }
         };
 
-        Plotly.newPlot('telemetryChart', [traceEquity, traceDD], layout, { responsive: true, displayModeBar: false });
+        Plotly.newPlot('chart', [traceEquity, traceDD], layout, { responsive: true, displayModeBar: false });
     </script>
 </body>
 </html>
