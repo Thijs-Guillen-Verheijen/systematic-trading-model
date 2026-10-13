@@ -117,27 +117,23 @@
             <div class="badge"><div class="dot"></div> LIVE</div>
         </div>
 
-        <div class="banner">
-            <div>
-                <strong style="color: var(--amber);">Open Position:</strong> 
-                SOLUSDT 
-                <span style="color: var(--green); font-weight: 600; margin-left: 4px;">LONG</span>
-            </div>
-            <div style="color: var(--muted);">Settlement pending</div>
+        <div class="banner flat">
+            <div><strong>Position:</strong> Flat (Cash)</div>
+            <div>Awaiting signal</div>
         </div>
     
         <div class="grid">
             <div class="card">
                 <div class="card-label">Current Equity</div>
-                <div class="card-val">$1,185.31</div>
+                <div class="card-val">$1,190.08</div>
             </div>
             <div class="card">
                 <div class="card-label">Profit Factor</div>
-                <div class="card-val">0.00</div>
+                <div class="card-val">0.32</div>
             </div>
             <div class="card">
                 <div class="card-label">Win Rate</div>
-                <div class="card-val">0.0%</div>
+                <div class="card-val">50.0%</div>
             </div>
             <div class="card">
                 <div class="card-label">Max Drawdown</div>
@@ -145,11 +141,11 @@
             </div>
             <div class="card">
                 <div class="card-label">Payoff Ratio</div>
-                <div class="card-val">0.00x</div>
+                <div class="card-val">0.32x</div>
             </div>
             <div class="card">
                 <div class="card-label">Trades</div>
-                <div class="card-val">2</div>
+                <div class="card-val">4</div>
             </div>
         </div>
 
@@ -158,14 +154,14 @@
         </div>
 
         <div class="footer">
-            Last update: 2026-10-13 23:36 UTC
+            Last update: 2026-10-13 23:37 UTC
         </div>
     </div>
 
     <script>
-        const times = ["10-13 23:02", "10-13 23:02"];
-        const equities = [1185.31, 1185.31];
-        const drawdowns = [0.0, 0.0];
+        const times = ["10-13 23:02", "10-13 23:02", "10-13 23:37", "10-13 23:37"];
+        const equities = [1185.31, 1185.31, 1190.08, 1190.08];
+        const drawdowns = [0.0, 0.0, 0.0, 0.0];
 
         const traceEquity = {
             x: times,
@@ -200,7 +196,7 @@
             grid: { rows: 2, columns: 1, pattern: 'independent', roworder: 'top to bottom' },
             yaxis: {
                 title: 'Equity ($)',
-                range: [1167.53035, 1203.08965],
+                range: [1167.53035, 1207.9311999999998],
                 gridcolor: '#1f2430',
                 zeroline: false,
                 domain: [0.36, 1.0],
