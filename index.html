@@ -75,7 +75,7 @@
         }
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
             gap: 12px;
             margin-bottom: 20px;
         }
@@ -113,27 +113,31 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>Quantitative Strategy Performance</h1>
+            <h1>Quantitative Strategy Performance (M2 Climax)</h1>
             <div class="badge"><div class="dot"></div> LIVE</div>
         </div>
 
         <div class="banner flat">
-            <div><strong>Position:</strong> Flat (Cash)</div>
-            <div>Awaiting signal</div>
+            <div><strong>Position:</strong> Flat (USDT Cash)</div>
+            <div>Awaiting M2 Climax signal</div>
         </div>
     
         <div class="grid">
             <div class="card">
                 <div class="card-label">Current Equity</div>
-                <div class="card-val">$1,190.08</div>
+                <div class="card-val">$1,232.84</div>
+            </div>
+            <div class="card">
+                <div class="card-label">Net Realized PnL</div>
+                <div class="card-val" style="color: var(--green);">+$42.79</div>
             </div>
             <div class="card">
                 <div class="card-label">Profit Factor</div>
-                <div class="card-val">0.32</div>
+                <div class="card-val">∞</div>
             </div>
             <div class="card">
                 <div class="card-label">Win Rate</div>
-                <div class="card-val">50.0%</div>
+                <div class="card-val">100.0%</div>
             </div>
             <div class="card">
                 <div class="card-label">Max Drawdown</div>
@@ -141,11 +145,11 @@
             </div>
             <div class="card">
                 <div class="card-label">Payoff Ratio</div>
-                <div class="card-val">0.32x</div>
+                <div class="card-val">—</div>
             </div>
             <div class="card">
                 <div class="card-label">Trades</div>
-                <div class="card-val">4</div>
+                <div class="card-val">2</div>
             </div>
         </div>
 
@@ -154,23 +158,25 @@
         </div>
 
         <div class="footer">
-            Last update: 2026-10-15 19:54 UTC
+            Last update: 2026-10-15 20:06 UTC
         </div>
     </div>
 
     <script>
-        const times = ["10-13 23:02", "10-13 23:02", "10-13 23:37", "10-13 23:37"];
-        const equities = [1185.31, 1185.31, 1190.08, 1190.08];
-        const drawdowns = [0.0, 0.0, 0.0, 0.0];
+        const times = ["Start", "10-15 12:08", "10-15 18:17"];
+        const cumPnl = [0.0, 12.93, 42.79];
+        const drawdowns = [0.0, 0.0, 0.0];
 
         const traceEquity = {
             x: times,
-            y: equities,
-            name: 'Equity ($)',
+            y: cumPnl,
+            name: 'Cumulative PnL ($)',
             type: 'scatter',
             mode: 'lines+markers',
-            line: { color: '#8b5cf6', width: 2 },
-            marker: { color: '#a78bfa', size: 5 },
+            line: { color: '#8b5cf6', width: 2.5 },
+            marker: { color: '#a78bfa', size: 6 },
+            fill: 'tozeroy',
+            fillcolor: 'rgba(139, 92, 246, 0.08)',
             xaxis: 'x',
             yaxis: 'y'
         };
@@ -183,23 +189,22 @@
             mode: 'lines',
             line: { color: '#ef4444', width: 1.5 },
             fill: 'tozeroy',
-            fillcolor: 'rgba(239, 68, 68, 0.1)',
-            xaxis: 'x',
+            fillcolor: 'rgba(239, 68, 68, 0.12)',
+            xaxis: 'x2',
             yaxis: 'y2'
         };
 
         const layout = {
             paper_bgcolor: 'transparent',
             plot_bgcolor: 'transparent',
-            margin: { t: 20, r: 20, b: 40, l: 60 },
+            margin: { t: 20, r: 20, b: 45, l: 65 },
             showlegend: false,
-            grid: { rows: 2, columns: 1, pattern: 'independent', roworder: 'top to bottom' },
             yaxis: {
-                title: 'Equity ($)',
-                range: [1167.53035, 1207.9311999999998],
+                title: 'Cum. PnL ($)',
+                range: [-5.0, 49.208499999999994],
                 gridcolor: '#1f2430',
-                zeroline: false,
-                domain: [0.36, 1.0],
+                zerolinecolor: '#262a36',
+                domain: [0.35, 1.0],
                 tickfont: { color: '#8492a6' },
                 titlefont: { color: '#cbd5e1' }
             },
@@ -207,19 +212,21 @@
                 title: 'Drawdown (%)',
                 gridcolor: '#1f2430',
                 zerolinecolor: '#262a36',
-                domain: [0.0, 0.26],
+                domain: [0.0, 0.25],
                 tickfont: { color: '#8492a6' },
                 titlefont: { color: '#cbd5e1' }
             },
             xaxis: {
                 gridcolor: '#1f2430',
                 tickfont: { color: '#8492a6' },
-                showticklabels: false
+                showticklabels: false,
+                anchor: 'y'
             },
             xaxis2: {
                 gridcolor: '#1f2430',
                 tickfont: { color: '#8492a6' },
-                titlefont: { color: '#cbd5e1' }
+                titlefont: { color: '#cbd5e1' },
+                anchor: 'y2'
             }
         };
 
