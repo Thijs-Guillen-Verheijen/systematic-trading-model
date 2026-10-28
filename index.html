@@ -117,30 +117,27 @@
             <div class="badge"><div class="dot"></div> LIVE</div>
         </div>
 
-        <div class="banner">
-            <div>
-                <strong style="color: var(--amber);">Open Position(s):</strong> 
-                DOGEUSDT <span style='color: var(--green); font-weight: 600; margin-left: 3px;'>LONG</span> &nbsp;|&nbsp; ETHUSDT <span style='color: var(--green); font-weight: 600; margin-left: 3px;'>LONG</span>
-            </div>
-            <div style="color: var(--muted);">Settlement pending</div>
+        <div class="banner flat">
+            <div><strong>Position:</strong> Flat (USDT Cash)</div>
+            <div>Awaiting M2 Climax signal</div>
         </div>
     
         <div class="grid">
             <div class="card">
                 <div class="card-label">Current Equity</div>
-                <div class="card-val">$2,725.25</div>
+                <div class="card-val">$2,590.38</div>
             </div>
             <div class="card">
                 <div class="card-label">Net Realized PnL</div>
-                <div class="card-val" style="color: var(--green);">+$248.32</div>
+                <div class="card-val" style="color: var(--green);">+$105.79</div>
             </div>
             <div class="card">
                 <div class="card-label">Profit Factor</div>
-                <div class="card-val">1.91</div>
+                <div class="card-val">1.25</div>
             </div>
             <div class="card">
                 <div class="card-label">Win Rate</div>
-                <div class="card-val">47.6%</div>
+                <div class="card-val">45.5%</div>
             </div>
             <div class="card">
                 <div class="card-label">Max Drawdown</div>
@@ -148,11 +145,11 @@
             </div>
             <div class="card">
                 <div class="card-label">Payoff Ratio</div>
-                <div class="card-val">2.10x</div>
+                <div class="card-val">1.50x</div>
             </div>
             <div class="card">
                 <div class="card-label">Trades</div>
-                <div class="card-val">21</div>
+                <div class="card-val">22</div>
             </div>
         </div>
 
@@ -161,14 +158,14 @@
         </div>
 
         <div class="footer">
-            Last update: 2026-10-28 13:47 UTC
+            Last update: 2026-10-28 13:48 UTC
         </div>
     </div>
 
     <script>
-        const times = ["Start", "10-15 12:08", "10-15 18:17", "10-16 12:33", "10-18 15:02", "10-18 15:02", "10-18 23:26", "10-18 23:26", "10-18 23:27", "10-18 23:27", "10-19 00:44", "10-19 00:44", "10-19 00:46", "10-19 00:46", "10-19 01:32", "10-19 01:32", "10-21 16:42", "10-21 16:42", "10-21 16:52", "10-21 16:52", "10-23 20:30", "10-26 21:29"];
-        const cumPnl = [0.0, 12.93, 42.79, 27.46, 138.6, 249.73, 223.95, 198.17, 174.86, 151.55, 113.65, 75.74, 57.34, 38.94, 15.12, -8.7, 33.09, 74.88, 104.05, 133.22, 205.99, 248.32];
-        const drawdowns = [0.0, 0.0, 0.0, -2.06, 0.0, 0.0, -2.71, -5.43, -7.88, -10.34, -14.33, -18.32, -20.26, -22.19, -24.7, -27.21, -22.81, -18.41, -15.34, -12.27, -4.61, -0.15];
+        const times = ["Start", "10-15 12:08", "10-15 18:17", "10-16 12:33", "10-18 15:02", "10-18 15:02", "10-18 23:26", "10-18 23:26", "10-18 23:27", "10-18 23:27", "10-19 00:44", "10-19 00:44", "10-19 00:46", "10-19 00:46", "10-19 01:32", "10-19 01:32", "10-21 16:42", "10-21 16:42", "10-21 16:52", "10-21 16:52", "10-23 20:30", "10-26 21:29", "10-28 13:48"];
+        const cumPnl = [0.0, 12.93, 42.79, 27.46, 138.6, 249.73, 223.95, 198.17, 174.86, 151.55, 113.65, 75.74, 57.34, 38.94, 15.12, -8.7, 33.09, 74.88, 104.05, 133.22, 205.99, 248.32, 105.79];
+        const drawdowns = [0.0, 0.0, 0.0, -2.06, 0.0, 0.0, -2.71, -5.43, -7.88, -10.34, -14.33, -18.32, -20.26, -22.19, -24.7, -27.21, -22.81, -18.41, -15.34, -12.27, -4.61, -0.15, -15.16];
 
         const traceEquity = {
             x: times,
